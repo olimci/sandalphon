@@ -1,0 +1,31 @@
+[package]
+name = "sandalphon-tokio"
+version.workspace = true
+edition.workspace = true
+repository.workspace = true
+
+[features]
+default = []
+interface-memory = []
+interface-quic = [
+    "dep:quinn",
+    "dep:rcgen",
+    "dep:rustls",
+    "dep:serde",
+    "dep:socket2",
+    "sandalphon-core/serde",
+    "tokio/io-util",
+    "tokio/net",
+]
+
+[dependencies]
+getrandom = { version = "0.4.3", features = ["sys_rng"] }
+quinn = { version = "0.11.12", default-features = false, features = ["runtime-tokio", "rustls-ring"], optional = true }
+rcgen = { version = "0.14.10", default-features = false, features = ["ring"], optional = true }
+rand_core = "0.10.1"
+rustls = { version = "0.23.36", default-features = false, features = ["ring", "std"], optional = true }
+sandalphon-core = { path = "../sandalphon-core", features = ["btree-storage"] }
+serde = { version = "1.0.229", features = ["derive"], optional = true }
+socket2 = { version = "0.6.2", optional = true }
+thiserror = "2.0.20"
+tokio = { version = "1.49.0", features = ["macros", "rt", "sync", "time"] }
